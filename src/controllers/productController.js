@@ -1,4 +1,6 @@
 import { product } from "../models/index.js";
+import buildSearchQuery from "../usecases/buildSearchQuery.js";
+
 
 class ProductController {
   static async registerProduct(req, res, next) {
@@ -19,7 +21,33 @@ class ProductController {
       }
       res.status(200).json(foundProduct);
     } catch (err) {
-      res.status(500).json({ error: 'An error occurred while registering the product.' });
+      res.status(500).json({ error: 'An error occurred while searching the product.' });
+    }
+  }
+
+  static async listProduct(req, res, next) {
+    try {
+      const search = buildSearchQuery(req.query);
+
+      let { limit = 5, from = 0 } = req.query;
+      limit = parseInt(limit);
+      from = parseInt(from);
+
+      if (limit > 0 && from >= 0) {
+        const paginatedResults = await product
+          .find(search)
+          .skip(from)
+          .limit(limit)
+          .exec();
+
+        const totalProducts = await product.countDocuments(search);
+
+        res.status(200).json({ total: totalProducts, data: paginatedResults });
+      } else {
+        res.status(400).json({ error: 'Bad Request: Invalid pagination parameters.' });
+      }
+    } catch (err) {
+      res.status(500).json({ error: 'An error occurred while searching products.' });
     }
   }
 
