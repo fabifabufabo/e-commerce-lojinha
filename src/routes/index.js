@@ -1,13 +1,11 @@
-import express from "express";
-import product from "./productsRoutes.js"
-
+import products from "./productsRoutes.js"
 
 const routes = (app) => {
   app
     .route("/")
     .get((req, res) => res.status(200).send("Welcome to our lojinha :)"));
 
-  app.use(express.json(), product);
+  app.use("/products", products);
 };
 
 export default routes;
