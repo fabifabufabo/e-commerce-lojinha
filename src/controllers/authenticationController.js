@@ -9,8 +9,13 @@ class AuthController {
     try {
       const foundUser = await user.findOne({ email });
 
+      const payload = {
+        id: foundUser._id,
+        role: foundUser.role,
+      };
+
       if (foundUser && foundUser.password === password) {
-        const token = jwt.sign({ id: foundUser._id }, environment.jwt_secret);
+        const token = jwt.sign(payload, environment.jwt_secret);
         return res
           .status(200)
           .json({ auth: true, token: token, message: "Login successful" });
