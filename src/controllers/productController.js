@@ -51,6 +51,55 @@ class ProductController {
     }
   }
 
+  static async updateProduct(req, res, next) {
+    try {
+      const id = req.params.id;
+      console.log(`Updating product with ID: ${id}`);
+      console.log(`Request body: ${JSON.stringify(req.body)}`);
+      const updatedProduct = await product.findByIdAndUpdate(id, req.body, { new: true });
+
+      if (!updatedProduct) {
+        console.log('Product not found');
+        res.status(404).json({ error: 'Product not found' });
+      } else {
+        console.log('Product updated successfully');
+        res.status(200).json(updatedProduct);
+      }
+    } catch (err) {
+      console.error(`Error updating product: ${err.message}`);
+      res.status(500).json({ error: 'An error occurred while updating the product.' });
+    }
+  }
+
+  static async deleteProduct(req, res, next) {
+    try {
+      const id = req.params.id;
+      const deletedProduct = await product.findByIdAndDelete(id);
+
+      if (!deletedProduct) {
+        res.status(404).json({ error: 'Product not found' });
+      } else {
+        res.status(204).end();
+      }
+    } catch (err) {
+      res.status(500).json({ error: 'An error occurred while deleting the product.' });
+    }
+  }
+
+  static async deleteProduct(req, res, next) {
+    try {
+      const id = req.params.id;
+      const deletedProduct = await product.findByIdAndDelete(id);
+
+      if (!deletedProduct) {
+        res.status(404).json({ error: 'Product not found' });
+      } else {
+        res.status(204).end();
+      }
+    } catch (err) {
+      res.status(500).json({ error: 'An error occurred while deleting the product.' });
+    }
+  }
 }
 
 export default ProductController;
