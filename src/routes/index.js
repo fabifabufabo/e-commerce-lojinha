@@ -1,6 +1,5 @@
 import products from "./productsRoutes.js";
 import auth from "./authenticationRoutes.js";
-import cart from "./cartRoutes.js";
 
 const routes = (app) => {
   app
@@ -9,7 +8,6 @@ const routes = (app) => {
 
   app.use("/products", products);
   app.use("/auth", auth);
-  app.use("/cart", cart);
 };
 
 export default routes;

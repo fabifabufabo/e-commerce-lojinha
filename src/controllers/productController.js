@@ -1,14 +1,15 @@
 import { product } from "../models/index.js";
 import buildSearchQuery from "../usecases/buildSearchQuery.js";
 
-
 class ProductController {
   static async registerProduct(req, res, next) {
     try {
       const newProduct = await product.create(req.body);
       res.status(201).json(newProduct);
     } catch (err) {
-      res.status(500).json({ error: 'An error occurred while registering the product.' });
+      res
+        .status(500)
+        .json({ error: "An error occurred while registering the product." });
     }
   }
 
@@ -17,11 +18,13 @@ class ProductController {
       const id = req.params.id;
       const foundProduct = await product.findById(id);
       if (!foundProduct) {
-        res.status(404).json({ error: 'Product not found' });
+        return res.status(404).json({ error: "Product not found" });
       }
       res.status(200).json(foundProduct);
     } catch (err) {
-      res.status(500).json({ error: 'An error occurred while searching the product.' });
+      res
+        .status(500)
+        .json({ error: "An error occurred while searching the product." });
     }
   }
 
@@ -44,13 +47,16 @@ class ProductController {
 
         res.status(200).json({ total: totalProducts, data: paginatedResults });
       } else {
-        res.status(400).json({ error: 'Bad Request: Invalid pagination parameters.' });
+        res
+          .status(400)
+          .json({ error: "Bad Request: Invalid pagination parameters." });
       }
     } catch (err) {
-      res.status(500).json({ error: 'An error occurred while searching products.' });
+      res
+        .status(500)
+        .json({ error: "An error occurred while searching products." });
     }
   }
-
 }
 
 export default ProductController;
