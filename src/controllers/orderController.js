@@ -1,7 +1,6 @@
 import { order } from "../models/index.js";
 import validateProducts from "../usecases/validateProducts.js";
 import processOrder from "../usecases/ProcessOrder.js";
-import buildSearchOrderQuery from "../usecases/buildSearchOrderQuery.js";
 
 class OrderController {
   static async registerOrder(req, res, next) {
@@ -30,15 +29,17 @@ class OrderController {
     try {
       const { userId } = req;
 
-      const search = buildSearchOrderQuery(req.query, userId);
+      const search = userId ? { userId } : {};
 
-      let { limit = 5, from = 0 } = req.query;
+      let { limit = 5, from = 0, timeOrder = "asc" } = req.query;
       limit = parseInt(limit);
       from = parseInt(from);
+      const sortOrder = timeOrder == "desc" ? -1 : 1;
 
       if (limit > 0 && from >= 0) {
         const paginatedResults = await order
           .find(search)
+          .sort({ createdAt: sortOrder })
           .skip(from)
           .limit(limit)
           .exec();
@@ -53,6 +54,23 @@ class OrderController {
       res
         .status(500)
         .json({ error: "An error occurred while searching orders." });
+    }
+  }
+
+  static async listOrderById(req, res, next) {
+    try {
+      const { userId } = req;
+      const { orderId } = req.params;
+
+      const foundOrder = await order.findOne({ _id: orderId, userId });
+
+      if (!foundOrder) {
+        return res.status(404).json({ error: "Order not found" });
+      }
+
+      res.status(200).json(foundOrder);
+    } catch (err) {
+      res.status(500).json({ error: err.message });
     }
   }
 }

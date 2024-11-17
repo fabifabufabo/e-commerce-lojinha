@@ -6,5 +6,6 @@ const router = express.Router();
 
 router.post("/", authMiddleware(), OrderController.registerOrder);
 router.get("/", authMiddleware(), OrderController.listOrder);
+router.get("/:orderId", authMiddleware(), OrderController.listOrderById);
 
 export default router;
