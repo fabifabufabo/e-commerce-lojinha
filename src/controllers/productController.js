@@ -1,5 +1,5 @@
 import { product } from "../models/index.js";
-import buildSearchQuery from "../usecases/buildSearchQuery.js";
+import buildSearchProductQuery from "../usecases/buildSearchProductQuery.js";
 
 class ProductController {
   static async registerProduct(req, res, next) {
@@ -30,7 +30,7 @@ class ProductController {
 
   static async listProduct(req, res, next) {
     try {
-      const search = buildSearchQuery(req.query);
+      const search = buildSearchProductQuery(req.query);
 
       let { limit = 5, from = 0 } = req.query;
       limit = parseInt(limit);

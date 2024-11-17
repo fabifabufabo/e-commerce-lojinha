@@ -1,6 +1,4 @@
-
-
-function buildSearchQuery(params) {
+function buildSearchProductQuery(params) {
   const { name, priceMin, priceMax, category } = params;
 
   let search = {};
@@ -16,4 +14,4 @@ function buildSearchQuery(params) {
   return search;
 }
 
-export default buildSearchQuery;
+export default buildSearchProductQuery;
