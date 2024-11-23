@@ -15,14 +15,17 @@ const authMiddleware = (requiredRole) => {
       req.userId = decoded.id;
       req.userRole = decoded.role;
 
-      const isRoleMismatch = requiredRole && requiredRole !== req.userRole;
-      const isParamsUserIdMismatch =
-        req.params?.userId && req.params.userId !== req.userId;
-      const isQueryUserIdMismatch =
-        req.query?.userId && req.query.userId !== req.userId;
+      const isAdmin = req.userRole === "admin";
+      if (!isAdmin) {
+        const isRoleMismatch = requiredRole && requiredRole !== req.userRole;
+        const isParamsUserIdMismatch =
+          req.params?.userId && req.params.userId !== req.userId;
+        const isQueryUserIdMismatch =
+          req.query?.userId && req.query.userId !== req.userId;
 
-      if (isRoleMismatch || isParamsUserIdMismatch || isQueryUserIdMismatch) {
-        return res.status(403).json({ message: "Access denied." });
+        if (isRoleMismatch || isParamsUserIdMismatch || isQueryUserIdMismatch) {
+          return res.status(403).json({ message: "Access denied." });
+        }
       }
 
       next();
