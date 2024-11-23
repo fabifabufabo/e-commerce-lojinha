@@ -1,6 +1,5 @@
 import jwt from "jsonwebtoken";
 import environment from "../config/environment.js";
-import { user } from "../models/index.js";
 
 const authMiddleware = (requiredRole) => {
   return async (req, res, next) => {
@@ -16,7 +15,13 @@ const authMiddleware = (requiredRole) => {
       req.userId = decoded.id;
       req.userRole = decoded.role;
 
-      if (requiredRole && req.userRole !== requiredRole) {
+      const isRoleMismatch = requiredRole && requiredRole !== req.userRole;
+      const isParamsUserIdMismatch =
+        req.params?.userId && req.params.userId !== req.userId;
+      const isQueryUserIdMismatch =
+        req.query?.userId && req.query.userId !== req.userId;
+
+      if (isRoleMismatch || isParamsUserIdMismatch || isQueryUserIdMismatch) {
         return res.status(403).json({ message: "Access denied." });
       }
 
