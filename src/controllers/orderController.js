@@ -27,7 +27,7 @@ class OrderController {
 
   static async listOrder(req, res, next) {
     try {
-      const { userId } = req;
+      const { userId } = req.query;
 
       const search = userId ? { userId } : {};
 
