@@ -59,10 +59,9 @@ class OrderController {
 
   static async listOrderById(req, res, next) {
     try {
-      const { userId } = req;
       const { orderId } = req.params;
 
-      const foundOrder = await order.findOne({ _id: orderId, userId });
+      const foundOrder = await order.findOne({ _id: orderId });
 
       if (!foundOrder) {
         return res.status(404).json({ error: "Order not found" });
