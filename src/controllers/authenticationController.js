@@ -25,6 +25,17 @@ class AuthController {
       res.status(500).json({ message: "Server error", error });
     }
   }
+
+  static async register(req, res) {
+    const { email, password } = req.body;
+
+    try {
+      const newUser = await user.create({ email, password });
+      res.status(201).json({ message: "User created", email: newUser.email });
+    } catch (error) {
+      res.status(500).json({ message: "Server error", error });
+    }
+  }
 }
 
 export default AuthController;
