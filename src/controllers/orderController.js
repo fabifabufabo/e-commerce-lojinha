@@ -59,12 +59,21 @@ class OrderController {
 
   static async listOrderById(req, res, next) {
     try {
+      const { userId, userRole } = req;
+
       const { orderId } = req.params;
 
       const foundOrder = await order.findOne({ _id: orderId });
 
       if (!foundOrder) {
         return res.status(404).json({ error: "Order not found" });
+      }
+
+      const userIdMismatch =
+        userId !== foundOrder.userId && userRole !== "admin";
+
+      if (userIdMismatch) {
+        return res.status(403).json({ error: "Access denied" });
       }
 
       res.status(200).json(foundOrder);
