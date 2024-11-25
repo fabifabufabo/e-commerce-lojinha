@@ -7,8 +7,8 @@ const router = express.Router();
 router
   .post("/", authMiddleware("admin"), ProductController.registerProduct)
   .get("/", ProductController.listProduct)
-  .get("/:id", ProductController.listProductById);
-// patch("/products/:id", ProductController.updateProduct)
-// delete("/products/:id", ProductController.deleteProduct)
+  .get("/:id", ProductController.listProductById)
+  .patch("/:id",authMiddleware("admin") ,ProductController.updateProduct)
+  .delete("/:id",authMiddleware("admin")  ,ProductController.deleteProduct);
 
 export default router;
