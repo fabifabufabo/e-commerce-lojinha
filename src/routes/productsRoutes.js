@@ -8,7 +8,7 @@ router
   .post("/", authMiddleware("admin"), ProductController.registerProduct)
   .get("/", ProductController.listProduct)
   .get("/:id", ProductController.listProductById)
-  .patch("/:id",authMiddleware("admin") ,ProductController.updateProduct)
-  .delete("/:id",authMiddleware("admin")  ,ProductController.deleteProduct);
+  .patch("/:id" ,ProductController.updateProduct)
+  .delete("/:id", ProductController.deleteProduct);
 
 export default router;

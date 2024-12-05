@@ -60,37 +60,40 @@ class ProductController {
 
   static async updateProduct(req, res, next) {
     try {
-      const id = req.params.id;
-      console.log(`Updating product with ID: ${id}`);
-      console.log(`Request body: ${JSON.stringify(req.body)}`);
-      const updatedProduct = await product.findByIdAndUpdate(id, req.body, { new: true });
+        const id = req.params.id;
 
-      if (!updatedProduct) {
-        console.log('Product not found');
-        res.status(404).json({ error: 'Product not found' });
-      } else {
-        console.log('Product updated successfully');
-        res.status(200).json(updatedProduct);
-      }
+        const existingProduct = await product.findById(id);
+        if (!existingProduct) {
+            return res.status(404).json({ error: 'Product not found' });
+        }
+
+        const updatedProduct = await product.findByIdAndUpdate(id, req.body, { new: true });
+        
+        if (!updatedProduct) {
+            return res.status(400).json({ error: 'Failed to update the product' });
+        }
+
+        return res.status(200).json(updatedProduct);
+
     } catch (err) {
-      console.error(`Error updating product: ${err.message}`);
-      res.status(500).json({ error: 'An error occurred while updating the product.' });
+        return res.status(500).json({ error: 'An error occurred while updating the product.' });
     }
   }
 
-
   static async deleteProduct(req, res, next) {
     try {
-      const id = req.params.id;
-      const deletedProduct = await product.findByIdAndDelete(id);
+        const id = req.params.id;
 
-      if (!deletedProduct) {
-        res.status(404).json({ error: 'Product not found' });
-      } else {
-        res.status(204).end();
-      }
+        // Excluir o produto pelo ID
+        const deletedProduct = await product.findByIdAndDelete(id);
+
+        if (!deletedProduct) {
+            return res.status(404).json({ error: 'Product not found' });
+        }
+
+        return res.status(204).end();
     } catch (err) {
-      res.status(500).json({ error: 'An error occurred while deleting the product.' });
+        return res.status(500).json({ error: 'An error occurred while deleting the product.' });
     }
   }
 }
