@@ -83,15 +83,13 @@ class ProductController {
   static async deleteProduct(req, res, next) {
     try {
         const id = req.params.id;
-
-        // Excluir o produto pelo ID
         const deletedProduct = await product.findByIdAndDelete(id);
 
         if (!deletedProduct) {
             return res.status(404).json({ error: 'Product not found' });
         }
-
         return res.status(204).end();
+  
     } catch (err) {
         return res.status(500).json({ error: 'An error occurred while deleting the product.' });
     }
