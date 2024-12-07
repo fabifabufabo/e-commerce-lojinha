@@ -8,12 +8,10 @@ class ReviewController {
             const { rating, comment } = req.body; 
             const userId = req.userId;
     
-            // Validação do campo "rating"
             if (typeof rating !== "number" || rating < 1 || rating > 5) {
                 return res.status(400).json({ error: "O campo rating deve ser um número entre 1 e 5." });
             }
     
-            // Garantir que productId está presente
             if (!productId) {
                 return res.status(400).json({ error: "O ID do produto é obrigatório." });
             }
