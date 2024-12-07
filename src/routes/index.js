@@ -11,7 +11,7 @@ const routes = (app) => {
   app.use("/products", products);
   app.use("/auth", auth);
   app.use("/orders", orders);
-  app.use("/reviews", review);
+  app.use("/products", review);
 
 };
 
