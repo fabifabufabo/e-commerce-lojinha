@@ -1,6 +1,7 @@
-import products from "./productsRoutes.js";
 import auth from "./authenticationRoutes.js";
 import orders from "./ordersRoutes.js";
+import products from "./productsRoutes.js";
+import review from "./reviewsRoutes.js";
 
 const routes = (app) => {
   app
@@ -10,6 +11,8 @@ const routes = (app) => {
   app.use("/products", products);
   app.use("/auth", auth);
   app.use("/orders", orders);
+  app.use("/products", review);
+
 };
 
 export default routes;

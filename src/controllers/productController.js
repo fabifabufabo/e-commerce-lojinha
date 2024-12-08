@@ -57,6 +57,7 @@ class ProductController {
         .json({ error: "An error occurred while searching products." });
     }
   }
+  
 
   static async updateProduct(req, res, next) {
     try {
