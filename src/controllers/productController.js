@@ -58,6 +58,7 @@ class ProductController {
     }
   }
   
+
   static async updateProduct(req, res, next) {
     try {
         const id = req.params.id;
