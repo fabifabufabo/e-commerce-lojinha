@@ -57,6 +57,43 @@ class ProductController {
         .json({ error: "An error occurred while searching products." });
     }
   }
+  
+  static async updateProduct(req, res, next) {
+    try {
+        const id = req.params.id;
+
+        const existingProduct = await product.findById(id);
+        if (!existingProduct) {
+            return res.status(404).json({ error: 'Product not found' });
+        }
+
+        const updatedProduct = await product.findByIdAndUpdate(id, req.body, { new: true });
+        
+        if (!updatedProduct) {
+            return res.status(400).json({ error: 'Failed to update the product' });
+        }
+
+        return res.status(200).json(updatedProduct);
+
+    } catch (err) {
+        return res.status(500).json({ error: 'An error occurred while updating the product.' });
+    }
+  }
+
+  static async deleteProduct(req, res, next) {
+    try {
+        const id = req.params.id;
+        const deletedProduct = await product.findByIdAndDelete(id);
+
+        if (!deletedProduct) {
+            return res.status(404).json({ error: 'Product not found' });
+        }
+        return res.status(204).end();
+  
+    } catch (err) {
+        return res.status(500).json({ error: 'An error occurred while deleting the product.' });
+    }
+  }
 }
 
 export default ProductController;
