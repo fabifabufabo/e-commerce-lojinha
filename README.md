@@ -22,7 +22,7 @@ Nosso projeto consiste em desenvolver uma aplicação web de uma **Loja Online**
 
 ### Tecnologia Utilizada
 
-- **Front-end**: React (HTML, CSS, JavaScript)
+- **Front-end**: React (HTML, CSS, JavaScript, React)
 - **Back-end**: Node.js com Express
 - **Banco de Dados**: MongoDB
 - **Autenticação**: JWT (JSON Web Tokens)
@@ -31,6 +31,6 @@ Nosso projeto consiste em desenvolver uma aplicação web de uma **Loja Online**
 ### Organização do Repositório
 
 Integrantes:
-- Bruno Jaques
-- Camila Prim
-- Fábio Fernandes
+- Bruno Jaques 23204894
+- Camila Prim 23203397
+- Fábio Fernandes 24103658

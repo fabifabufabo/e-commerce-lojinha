@@ -5,7 +5,7 @@ import authMiddleware from "../middleware/authMiddleware.js";
 const router = express.Router();
 
 router
-  .post("/", authMiddleware("admin"), ProductController.registerProduct)
+  .post("/", ProductController.registerProduct)
   .get("/", ProductController.listProduct)
   .get("/:id", ProductController.listProductById)
   .patch("/:id", authMiddleware("admin"), ProductController.updateProduct)
